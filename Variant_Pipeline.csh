@@ -37,4 +37,4 @@ picard MarkDuplicates I=$output_name/sorted.bam O=$output_name/sorted.marked.bam
 
 freebayes -b $output_name/sorted.marked.bam -f $Reference -v $output_name/Results.vcf --ploidy 1 --min-alternate-fraction 0.5 --min-coverage 10
 
-/opt/anaconda3/envs/cpdb/bin/snpeff -c $Reference_Directory/snpeffdatabase/snpeff.config $Reference_Name $output_name/Results.vcf > $output_name/Annotated.Results.vcf
+snpeff -c $Reference_Directory/snpeffdatabase/snpeff.config $Reference_Name $output_name/Results.vcf > $output_name/Annotated.Results.vcf

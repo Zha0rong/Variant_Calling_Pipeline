@@ -2,6 +2,10 @@
  
 ## This is a variant calling pipeline utilizing BWA, Samtools, Freebayes and SNPEff to analyze genomic variants in COVID.
 
+Instead of using the sub-sampled data, the fastq files are downloaded from Sequence Archive SRR15660643.
+
+The bam file is converted to fastq files using Picard BamToFastq.
+
 The results are in the folder SRR15660643.
 
 The results are generated using the following command:
@@ -16,3 +20,4 @@ Arguments Fields:
 
 In the reference folder a customized SNPeff database is generated using NCBI genome MN908947.
 
+Bam files are removed from the output deposited in the GitHub directory due to size limitation.

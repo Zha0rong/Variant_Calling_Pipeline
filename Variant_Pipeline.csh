@@ -23,18 +23,19 @@ fastqc -o $output_name/QC $f1 $f2
 
 bwa mem $Reference $f1 $f2 > $output_name/raw.sam
 
+#Convert sam file to bam file
 samtools view -hSbo $output_name/raw.bam $output_name/raw.sam
-
+#Sort and index bam file
 samtools sort -o $output_name/sorted.bam $output_name/raw.bam
 
 samtools index $output_name/sorted.bam
 
 rm $output_name/raw.sam
-
+#Use flagstats to provide QC metrics on the bam files
 samtools flagstats $output_name/sorted.bam > $QCDirectory/flagstats.txt
-
+#Use picard MarkDuplicates to mark duplicates in the bam, the Duplication metrics is deposited in QC directory
 picard MarkDuplicates I=$output_name/sorted.bam O=$output_name/sorted.marked.bam M=$output_name/QC/Duplication.statistics.txt
-
+#Use FreeBayes to call variants. I use the same arguments in the VCF file provided.
 freebayes -b $output_name/sorted.marked.bam -f $Reference -v $output_name/Results.vcf --ploidy 1 --min-alternate-fraction 0.5 --min-coverage 10
-
+#Use customize snpeff database to annotate the vcf file results.
 snpeff -c $Reference_Directory/snpeffdatabase/snpeff.config $Reference_Name $output_name/Results.vcf > $output_name/Annotated.Results.vcf
